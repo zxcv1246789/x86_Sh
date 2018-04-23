@@ -1,5 +1,9 @@
+#인터넷 연결 필수
+#메인포트에 DHCP 서버 setting
+#root 권한 필수 (sudo su -)
+
 echo "PXE Server Setting..."
-sleep 3s
+sleep 2s
 
 ifconfig=$(ifconfig)
 
@@ -24,13 +28,15 @@ DHCPMaxLeaseTime=7200
 
 echo "DHCP Server IP is $DHCPip"
 sleep 2s
-:<<'END'
 
 echo "update & upgrade start..."
-sleep 1s
+sleep 3s
 
 apt-get update -y
 apt-get upgrade -y
+
+echo "TFTP server Install and Setting..."
+sleep 3s
 
 apt-get install tftp tftpd -y
 
@@ -43,7 +49,7 @@ service tftp
 	wait		= yes
 	user		= root
 	server		= /usr/sbin/in.tftpd
-	server_args	= /tftpboot
+	server_args	= -s /tftpboot
 	disable		= no
 }
 EOF
@@ -53,6 +59,9 @@ mkdir /tftpboot
 chmod -R 777 /tftpboot
 
 service xinetd restart
+
+echo "Static IP Setting..."
+sleep 2s
 
 mv /etc/network/interfaces /etc/network/interfaces.orig
 
@@ -65,6 +74,9 @@ iface $interface inet static
 
 address $DHCPip
 EOF
+
+echo "DHCP Server install and Setting..."
+sleep 3s
 
 apt-get install isc-dhcp-server -y
 
@@ -97,7 +109,8 @@ EOF
 service isc-dhcp-server restart
 service isc-dhcp-server status
 
-END
+echo "NFS-KERNEL-SERVER Install and Setting..."
+sleep 3s
 
 apt-get install nfs-kernel-server -y
 
@@ -110,6 +123,10 @@ cat > /etc/exports <<-EOF
 EOF
 
 exportfs -a
+
+
+echo "LiveCD iso file Download AND Setting..."
+sleep 3s
 
 wget http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-desktop-amd64.iso
 wget http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso
@@ -165,6 +182,8 @@ unsquashfs ./filesystem.squashfs
 cd /home/$user/ubuntu-livecd-16/amd64/casper
 mksquashfs squashfs-root ./filesystem.squashfs
 
+echo "JAVA JDK Install..."
+sleep 3s
 
 apt-get update -y && apt-get upgrade -y
 
