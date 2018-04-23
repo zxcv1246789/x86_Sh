@@ -173,9 +173,11 @@ label Live CD 64-bit(16.04.4)
 	append boot=casper netboot=nfs nfsroot=$DHCPip:/home/$user/ubuntu-livecd-16/amd64 initrd=ubuntu-livecd-boot/amd64/initrd.lz -- splash quiet
 EOF
 
+
 unsquashfs /home/$user/ubuntu-livecd-16/amd64/casper/filesystem.squashfs
 
 mksquashfs squashfs-root /home/$user/ubuntu-livecd-16/amd64/casper/filesystem.squashfs
+
 
 echo "JAVA JDK Install..."
 sleep 3s
