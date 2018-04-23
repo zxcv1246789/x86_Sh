@@ -1,7 +1,3 @@
-#인터넷 연결 필수
-#메인포트에 DHCP 서버 setting
-#root 권한 필수 (sudo su -)
-
 echo "PXE Server Setting..."
 sleep 2s
 
@@ -25,6 +21,8 @@ DHCPnetmask=255.255.255.0
 DHCPrange=("192.170.10.100" "192.170.10.200")
 DHCPDefLeaseTime=600
 DHCPMaxLeaseTime=7200
+
+:<<'END'
 
 echo "DHCP Server IP is $DHCPip"
 sleep 2s
@@ -124,12 +122,12 @@ EOF
 
 exportfs -a
 
+END
 
 echo "LiveCD iso file Download AND Setting..."
 sleep 3s
 
-wget http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-desktop-amd64.iso
-wget http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso
+wget http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-desktop-amd64.iso && wget http://releases.ubuntu.com/14.04/ubuntu-14.04.5-server-amd64.iso
 
 mkdir /mnt/ubuntu-16.04-desktop
 mkdir /mnt/ubuntu-14.04-server
