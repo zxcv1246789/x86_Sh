@@ -22,8 +22,6 @@ DHCPrange=("192.170.10.100" "192.170.10.200")
 DHCPDefLeaseTime=600
 DHCPMaxLeaseTime=7200
 
-:<<'END'
-
 echo "DHCP Server IP is $DHCPip"
 sleep 2s
 
@@ -121,8 +119,6 @@ cat > /etc/exports <<-EOF
 EOF
 
 exportfs -a
-
-END
 
 echo "LiveCD iso file Download AND Setting..."
 sleep 3s
