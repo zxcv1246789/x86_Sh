@@ -31,6 +31,23 @@ sleep 3s
 apt-get update -y
 apt-get upgrade -y
 
+echo "Static IP Setting..."
+sleep 2s
+
+mv /etc/network/interfaces /etc/network/interfaces.orig
+
+cat > /etc/network/interfaces <<-EOF
+auto lo
+iface lo inet loopback
+
+auto $interface
+iface $interface inet static
+
+address $DHCPip
+EOF
+
+systemctl restart networking.service
+
 echo "TFTP server Install and Setting..."
 sleep 3s
 
@@ -55,23 +72,6 @@ mkdir /tftpboot
 chmod -R 777 /tftpboot
 
 service xinetd restart
-
-echo "Static IP Setting..."
-sleep 2s
-
-mv /etc/network/interfaces /etc/network/interfaces.orig
-
-cat > /etc/network/interfaces <<-EOF
-auto lo
-iface lo inet loopback
-
-auto $interface
-iface $interface inet static
-
-address $DHCPip
-EOF
-
-systemctl restart networking.service
 
 echo "DHCP Server install and Setting..."
 sleep 3s
@@ -105,7 +105,6 @@ subnet $DHCPsubnet netmask $DHCPnetmask {
 EOF
 
 service isc-dhcp-server restart
-service isc-dhcp-server status
 
 echo "NFS-KERNEL-SERVER Install and Setting..."
 sleep 3s
