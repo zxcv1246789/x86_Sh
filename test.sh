@@ -42,7 +42,6 @@ iface lo inet loopback
 
 auto $interface
 iface $interface inet static
-
 address $DHCPip
 EOF
 
