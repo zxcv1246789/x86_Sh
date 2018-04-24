@@ -5,7 +5,7 @@ ifconfig=$(ifconfig)
 
 interface=`echo $ifconfig | cut -d' ' -f1`
 
-echo "Interface is $interface"
+echo "DHCP Interface is $interface"
 sleep 2s
 
 username=`awk -F ':' '{if($3>=500)print $1}' /etc/passwd`
