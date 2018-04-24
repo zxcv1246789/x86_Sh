@@ -71,6 +71,8 @@ iface $interface inet static
 address $DHCPip
 EOF
 
+systemctl restart networking.service
+
 echo "DHCP Server install and Setting..."
 sleep 3s
 
