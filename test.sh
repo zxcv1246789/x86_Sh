@@ -184,3 +184,8 @@ add-apt-repository ppa:webupd8team/java -y
 apt-get update -y
 
 apt-get install oracle-java8-installer -y
+
+echo "Reboot..."
+sleep 3s
+
+reboot
